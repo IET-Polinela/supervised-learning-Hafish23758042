@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load dataset
-file_path = "cleaned_train.csv"
+file_path = "encoded_dataset.csv"
 df = pd.read_csv(file_path)
 
 # Memilih hanya kolom numerik
