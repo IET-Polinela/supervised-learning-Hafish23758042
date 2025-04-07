@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+import numpy as np
 
 # Load dataset
 dataset_path = 'dataset_tanpa_outlier.csv'
@@ -28,36 +29,33 @@ minmax_scaled_df.to_csv('minmax_scaled_data.csv', index=False)
 
 print("Dataset hasil scaling telah disimpan sebagai 'standard_scaled_data.csv' dan 'minmax_scaled_data.csv'.")
 
-# Tampilkan statistik deskriptif sebelum dan sesudah scaling
-print("Original Data Statistics:\n", data.describe())
-print("\nStandardScaler Data Statistics:\n", standard_scaled_df.describe())
-print("\nMinMaxScaler Data Statistics:\n", minmax_scaled_df.describe())
+# Gabungkan semua nilai fitur menjadi satu array untuk masing-masing jenis data
+original_values = data.values.flatten()
+standard_values = standard_scaled_df.values.flatten()
+minmax_values = minmax_scaled_df.values.flatten()
 
-# Plot distribusi sebelum dan sesudah scaling
-fig, axes = plt.subplots(len(numerical_cols), 3, figsize=(15, 5 * len(numerical_cols)))
+# Plot histogram gabungan
+fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
-for i, col in enumerate(numerical_cols):
-    # Sebelum scaling
-    axes[i, 0].hist(data[col], bins=30, alpha=0.7, color='blue', edgecolor='black')
-    axes[i, 0].set_title(f'Original {col}')
-    axes[i, 0].set_xlabel(col)
-    axes[i, 0].set_ylabel('Frequency')
-    axes[i, 0].grid(True)
+# Original
+axes[0].hist(original_values, bins=50, color='blue', alpha=0.7, edgecolor='black')
+axes[0].set_title('Original Data Distribution')
+axes[0].set_xlabel('Value')
+axes[0].set_ylabel('Frequency')
+axes[0].grid(True)
 
-    # StandardScaler
-    axes[i, 1].hist(standard_scaled_df[col], bins=30, alpha=0.7, color='green', edgecolor='black')
-    axes[i, 1].set_title(f'StandardScaler {col}')
-    axes[i, 1].set_xlabel(col)
-    axes[i, 1].grid(True)
+# StandardScaler
+axes[1].hist(standard_values, bins=50, color='green', alpha=0.7, edgecolor='black')
+axes[1].set_title('StandardScaler Data Distribution')
+axes[1].set_xlabel('Value')
+axes[1].grid(True)
 
-    # MinMaxScaler
-    axes[i, 2].hist(minmax_scaled_df[col], bins=30, alpha=0.7, color='red', edgecolor='black')
-    axes[i, 2].set_title(f'MinMaxScaler {col}')
-    axes[i, 2].set_xlabel(col)
-    axes[i, 2].grid(True)
+# MinMaxScaler
+axes[2].hist(minmax_values, bins=50, color='red', alpha=0.7, edgecolor='black')
+axes[2].set_title('MinMaxScaler Data Distribution')
+axes[2].set_xlabel('Value')
+axes[2].grid(True)
 
 plt.tight_layout()
-
-# Simpan gambar
-plt.savefig('scaling_visualization.png')
+plt.savefig('scaling_summary_histograms.png')
 plt.show()
