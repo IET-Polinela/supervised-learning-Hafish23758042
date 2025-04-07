@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 # Load datasets
 file_outlier = 'dataset_dengan_outlier.csv'
-file_scaled = 'minmax_scaled_data.csv'
+file_scaled = 'minmax_scaled_data_tanpa_outlier.csv'
 
 data_outlier = pd.read_csv(file_outlier)
 data_scaled = pd.read_csv(file_scaled)
@@ -22,6 +22,15 @@ y_scaled = data_scaled.iloc[:, -1]
 # Split data into train and test sets
 X_train_o, X_test_o, y_train_o, y_test_o = train_test_split(X_outlier, y_outlier, test_size=0.2, random_state=42)
 X_train_s, X_test_s, y_train_s, y_test_s = train_test_split(X_scaled, y_scaled, test_size=0.2, random_state=42)
+
+# Print jumlah data training dan testing
+print("Dataset dengan Outlier:")
+print(f"Jumlah data training: {X_train_o.shape[0]}")
+print(f"Jumlah data testing: {X_test_o.shape[0]}\n")
+
+print("Dataset Tanpa Outlier & Scaled:")
+print(f"Jumlah data training: {X_train_s.shape[0]}")
+print(f"Jumlah data testing: {X_test_s.shape[0]}\n")
 
 # Train Linear Regression models
 model_o = LinearRegression()
